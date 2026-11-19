@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vice Cover Studio — GTA-style cover maker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ff2e88'/%3E%3Ctext x='16' y='23' font-size='18' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='%23fff'%3EV%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">VC</span> VICE COVER STUDIO</div>
+  <p class="tagline">Your photo. Your caption. A poster-worthy cover — made offline, on your machine.</p>
+</header>
+<main class="app">
+  <section class="controls" aria-label="Cover controls">
+    <h1>Make your cover</h1>
+    <p class="hint">1 &middot; Add photos &nbsp; 2 &middot; Pick a layout &amp; grade &nbsp; 3 &middot; Write your caption &nbsp; 4 &middot; Export PNG</p>
+
+    <fieldset>
+      <legend>Photos</legend>
+      <div class="photo-row">
+        <label class="file-btn">Add photo(s)<input id="photos" type="file" accept="image/*" multiple></label>
+        <button id="samples" type="button">Use sample photos</button>
+        <button id="fillAll" type="button">One photo fills all panels</button>
+      </div>
+      <p id="photoCount" class="small">No photos yet — add your own, or try the samples.</p>
+      <div id="photoChips" class="chips"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Layout</legend>
+      <div class="seg" id="layoutSeg" role="group" aria-label="Layout">
+        <button type="button" data-layout="grid" class="on">9-panel grid</button>
+        <button type="button" data-layout="hero">Hero + 3</button>
+        <button type="button" data-layout="bleed">Full-bleed</button>
+        <button type="button" data-layout="tilt">Tilted snaps</button>
+      </div>
+      <p class="small">Click a panel in the preview to select it, then drag to move the photo and scroll to zoom.</p>
+      <label>Selected panel photo
+        <select id="panelPhoto"></select>
+      </label>
+      <div class="sliders">
+        <label>Zoom <input id="zoom" type="range" min="1" max="3" step="0.01" value="1.2"></label>
+        <label>Move X <input id="panX" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+        <label>Move Y <input id="panY" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Grade &amp; lettering</legend>
+      <div class="seg" id="gradeSeg" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="on">Sunset</button>
+        <button type="button" data-grade="neon">Neon Vice</button>
+        <button type="button" data-grade="palm">Palm Gold</button>
+        <button type="button" data-grade="midnight">Midnight</button>
+        <button type="button" data-grade="noir">Noir</button>
+      </div>
+      <label>Title <input id="title" type="text" maxlength="24" value="NEON SHORE"></label>
+      <label>Subtitle <input id="subtitle" type="text" maxlength="40" value="vice nights, your story"></label>
+      <label>Badge <input id="badge" type="text" maxlength="18" value="EST. 2026"></label>
+      <div class="checks">
+        <label><input id="grain" type="checkbox" checked> Film grain</label>
+        <label><input id="vignette" type="checkbox" checked> Vignette</label>
+        <label><input id="halftone" type="checkbox" checked> Halftone title</label>
+        <label><input id="frame" type="checkbox" checked> White frame</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Export</legend>
+      <div class="seg" id="sizeSeg" role="group" aria-label="Export size">
+        <button type="button" data-size="1080x1080">Square 1080&times;1080</button>
+        <button type="button" data-size="1080x1350" class="on">Portrait 1080&times;1350</button>
+        <button type="button" data-size="1920x1080">Wide 1920&times;1080</button>
+      </div>
+      <div class="export-row">
+        <button id="export" type="button" class="primary">Export PNG</button>
+        <button id="exportAll" type="button">Export all 3 sizes</button>
+      </div>
+      <p id="status" role="status"></p>
+    </fieldset>
+  </section>
+
+  <section class="preview" aria-label="Live preview">
+    <div class="canvas-wrap">
+      <canvas id="cover" width="1080" height="1350" aria-label="Cover preview"></canvas>
+      <p class="preview-note">Live preview — drag a panel to reposition its photo</p>
+    </div>
+    <div class="sizes-note">
+      <strong>Fast path:</strong> sample photos &rarr; pick a grade &rarr; Export PNG. About 10 seconds, no upload, no account.
+    </div>
+  </section>
+</main>
+<footer class="foot">100% offline — photos never leave this machine. Original art and lettering; not affiliated with Rockstar Games.</footer>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
